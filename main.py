@@ -2,10 +2,18 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/") #app is decorator, ("/") is the path, get is the operation 
+@app.get("/blog") #app is decorator, ("/") is the path, get is the operation 
 # path operation function
-def index():
-    return {"data":"blog list"} 
+def index(limit, published:bool): #Query parameters 
+    if published:
+        return {"data":f"{limit} published blogs from the db"} 
+    else:
+        return {"data":f"{limit} blogs from the db"}
+    
+
+@app.get("/blog/unpublished") #app is decorator, ("/blog/unpublished") is the path, get is the operation
+def unpublished():
+    return {"data":"unpublished blogs"}
 
 @app.get("/blog/{id}") #app is decorator, ("/blog/{id}") is the path parameter giving dynamically, get is the operation
 def show(id:int):
